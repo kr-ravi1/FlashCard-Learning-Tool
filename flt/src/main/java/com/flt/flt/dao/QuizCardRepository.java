@@ -1,6 +1,9 @@
 package com.flt.flt.dao;
 
+import com.flt.flt.models.Categories;
+import com.flt.flt.models.Difficulties;
 import com.flt.flt.models.QuizCard;
+import jakarta.annotation.Nullable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -28,4 +31,13 @@ public interface QuizCardRepository extends JpaRepository<QuizCard, Long> {
 
     @Query("SELECT c FROM QuizCard c")
     List<QuizCard> findAllCards();
+
+    @Query("SELECT c FROM QuizCard c WHERE c.difficulty = :difficulty AND c.category = :category")
+    List<QuizCard> findByDifficultyAndCategory(@Param("difficulty") Difficulties difficulty,@Param("category") Categories category);
+
+    @Query("SELECT c FROM QuizCard c WHERE c.difficulty = :difficulty")
+    List<QuizCard> findByDifficulty(@Param("difficulty") Difficulties difficulty);
+
+    @Query("SELECT c FROM QuizCard c WHERE c.category = :category")
+    List<QuizCard> findByCategory(@Param("category") Categories category);
 }

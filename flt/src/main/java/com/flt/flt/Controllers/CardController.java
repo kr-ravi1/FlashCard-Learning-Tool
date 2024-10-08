@@ -1,7 +1,10 @@
 package com.flt.flt.Controllers;
 
 import com.flt.flt.Services.CardService;
+import com.flt.flt.models.Categories;
+import com.flt.flt.models.Difficulties;
 import com.flt.flt.models.QuizCard;
+import jakarta.annotation.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -62,9 +65,9 @@ public class CardController {
         return new ResponseEntity<>("No cards are present", HttpStatus.OK);
     }
 
-    @GetMapping("/filter")
-    public ResponseEntity<?> applyFilter(@RequestParam(value = "difficulty", required = false) String difficulty,
-                                         @RequestParam(value = "category", required = false) String category) {
-        return new ResponseEntity<>(HttpStatus.OK);
+    @GetMapping("/flashcards")
+    public List<QuizCard> getFlashcards(@RequestParam(value = "difficulty", required = false) Difficulties difficulty,
+                                         @RequestParam(value = "category", required = false) Categories category) {
+        return cardService.getFilteredCards(difficulty, category);
     }
 }

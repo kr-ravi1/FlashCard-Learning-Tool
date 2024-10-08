@@ -2,7 +2,10 @@ package com.flt.flt.Implementations;
 
 import com.flt.flt.Services.CardService;
 import com.flt.flt.dao.QuizCardRepository;
+import com.flt.flt.models.Categories;
+import com.flt.flt.models.Difficulties;
 import com.flt.flt.models.QuizCard;
+import jakarta.annotation.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.config.ConfigDataResourceNotFoundException;
@@ -65,5 +68,19 @@ public class CardServiceImpl implements CardService {
     @Override
     public List<QuizCard> getAllCards() {
         return quizCardRepository.findAllCards();
+    }
+
+    @Override
+    public List<QuizCard> getFilteredCards(Difficulties difficulty, Categories category) {
+        if(difficulty != Difficulties.ALL && category != Categories.ALL) {
+            return quizCardRepository.findByDifficultyAndCategory(difficulty, category);
+        }
+        else if(difficulty != Difficulties.ALL) {
+            return quizCardRepository.findByDifficulty(difficulty);
+        }
+        else if(category != Categories.ALL) {
+            return quizCardRepository.findByCategory(category);
+        }
+        else return quizCardRepository.findAllCards();
     }
 }
