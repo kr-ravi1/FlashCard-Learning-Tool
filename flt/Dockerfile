@@ -1,19 +1,12 @@
-FROM maven:3.9.9-openjdk-21 AS build
-
+# Use Maven with JDK 21 for building the application
+FROM maven:3-eclipse-temurin-21 AS build
 WORKDIR /app
-
-COPY pom.xml .
-RUN mvn dependency:go-offline
-
-COPY src ./src
+COPY . .
 RUN mvn clean package -DskipTests
 
-FROM openjdk:21-jdk-slim
-
+# Use a smaller JDK 21 runtime for running the app
+FROM eclipse-temurin:21-alpine
 WORKDIR /app
-
-COPY --from=build /app/target/flt-0.0.1-SNAPSHOT.jar .
-
+COPY --from=build /app/target/*.jar demo.jar
 EXPOSE 8080
-
-ENTRYPOINT ["java", "-jar", "/app/flt-0.0.1-SNAPSHOT.jar"]
+ENTRYPOINT ["java", "-jar", "demo.jar"]

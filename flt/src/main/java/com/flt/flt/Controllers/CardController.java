@@ -5,7 +5,6 @@ import com.flt.flt.models.Categories;
 import com.flt.flt.models.Difficulties;
 import com.flt.flt.models.QuizCard;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
