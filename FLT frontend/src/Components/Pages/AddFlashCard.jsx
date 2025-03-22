@@ -11,7 +11,7 @@ function AddFlashCard() {
     const submitHandler = async (event) => {
         event.preventDefault();
         try {
-            const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/add`, {
+            const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/card/add`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
