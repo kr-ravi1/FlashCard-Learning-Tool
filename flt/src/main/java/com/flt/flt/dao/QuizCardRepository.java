@@ -40,4 +40,7 @@ public interface QuizCardRepository extends JpaRepository<QuizCard, Long> {
 
     @Query("SELECT c FROM QuizCard c WHERE c.category = :category")
     List<QuizCard> findByCategory(@Param("category") Categories category);
+
+    @Query("SELECT c FROM QuizCard c WHERE c.id = :id")
+    Optional<QuizCard> findCardById(@Param("id") long id);
 }

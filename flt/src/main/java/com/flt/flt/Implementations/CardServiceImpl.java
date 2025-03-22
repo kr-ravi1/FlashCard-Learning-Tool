@@ -5,16 +5,10 @@ import com.flt.flt.dao.QuizCardRepository;
 import com.flt.flt.models.Categories;
 import com.flt.flt.models.Difficulties;
 import com.flt.flt.models.QuizCard;
-import jakarta.annotation.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.context.config.ConfigDataResourceNotFoundException;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.io.BufferedOutputStream;
 import java.util.List;
 import java.util.Optional;
 
@@ -45,13 +39,7 @@ public class CardServiceImpl implements CardService {
 
     @Override
     public QuizCard updateCard(QuizCard card) {
-        var oldCard = quizCardRepository.findById(card.getId()).orElseThrow();
-        oldCard.setAnswer(card.getAnswer());
-        oldCard.setCategory(card.getCategory());
-        oldCard.setQuestion(card.getQuestion());
-        oldCard.setDifficulty(card.getDifficulty());
-
-        return quizCardRepository.save(oldCard);
+        return quizCardRepository.save(card);
     }
 
     @Override
@@ -82,5 +70,10 @@ public class CardServiceImpl implements CardService {
             return quizCardRepository.findByCategory(category);
         }
         else return quizCardRepository.findAllCards();
+    }
+
+    @Override
+    public Optional<QuizCard> findCardById(long id) {
+        return quizCardRepository.findCardById(id);
     }
 }

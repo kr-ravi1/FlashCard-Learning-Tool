@@ -1,41 +1,47 @@
-import NavBar from '../NavBar/NavBar.jsx'
 import FlashCard from '../FlashCard/FlashCard.jsx'
 import { useEffect, useState } from 'react'
+import { useSearchParams } from 'react-router-dom';
 
 function Home() {
   const[flashcards, setFlashcards] = useState([]);
   const[currentIndex, setCurrentIndex] = useState(0);
   const[difficulty, setDifficulty] = useState("ALL");
   const[category, setCategory] = useState("ALL");
-  const[clicked, setClicked] = useState(0);
 
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [getSearchParams] = useSearchParams();
+
+  const updateQuery = () => {
+    setSearchParams({
+      difficulty: difficulty,
+      category: category
+    });
+  }
+ 
   useEffect(() => {
+    setCategory(getSearchParams.get("category") || "ALL");
+    setDifficulty(getSearchParams.get("difficulty") || "ALL");
     const fetchFlashcards = async () => {
       let query = `?difficulty=${difficulty}&category=${category}`;
-      const response = await fetch(`http://localhost:8080/api/flashcards${query}`);
+      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/flashcards${query}`);
       const data = await response.json();
       setFlashcards(data);
       setCurrentIndex(0); 
     };
     fetchFlashcards();
 
-  }, [clicked]);
+  }, [searchParams]);
 
   const prevHandler = () => {
-    setCurrentIndex(currentIndex > 1 ? currentIndex - 1 : flashcards.length-1);
+    setCurrentIndex(currentIndex > 0 ? currentIndex - 1 : flashcards.length-1);
   }
 
   const nextHandler = () => {
     setCurrentIndex(currentIndex < flashcards.length-1 ? currentIndex + 1 : 0);
   }
 
-  const clickHandler = () => {
-    setClicked(clicked+1);
-  }
-
   return (
     <>
-      <NavBar btn={"Admin Page"} to={"/admin"}/>
       <div>
         <div className='w-full flex items-center justify-center text-gray-900 my-5 gap-10 '>
           <div className='flex items-center'>
@@ -71,7 +77,7 @@ function Home() {
               </select></div>
           </div>
           <div>
-            <div onClick={clickHandler} className='cursor-pointer bg-violet-600 rounded-lg px-4 py-2 hover:bg-violet-500 text-white'>Apply Filter</div>
+            <div onClick={updateQuery} className='cursor-pointer bg-violet-600 rounded-lg px-4 py-2 hover:bg-violet-500 text-white'>Apply Filter</div>
           </div>
         </div>
       </div>

@@ -21,4 +21,6 @@ public interface CardService {
     List<QuizCard> getAllCards();
 
     List<QuizCard> getFilteredCards(Difficulties difficulty, Categories category);
+
+    Optional<QuizCard> findCardById(long id);
 }

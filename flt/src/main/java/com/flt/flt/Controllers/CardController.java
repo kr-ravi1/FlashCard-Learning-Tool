@@ -4,13 +4,14 @@ import com.flt.flt.Services.CardService;
 import com.flt.flt.models.Categories;
 import com.flt.flt.models.Difficulties;
 import com.flt.flt.models.QuizCard;
-import jakarta.annotation.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -21,11 +22,11 @@ public class CardController {
     @Autowired
     private CardService cardService;
 
-    @GetMapping("/card")
-    public ResponseEntity<?> getCardById(@RequestParam(value="cardNumber", defaultValue = "1") long cardOrder) {
-        Optional<QuizCard> card = cardService.findCardByCardOrder(cardOrder);
+    @GetMapping("/card/{id}")
+    public ResponseEntity<?> getCardById(@PathVariable long id) {
+        Optional<QuizCard> card = cardService.findCardById(id);
         if(card.isPresent()) {
-            return new ResponseEntity<>(card.get(), HttpStatus.OK);
+            return new ResponseEntity<>(card, HttpStatus.OK);
         } else {
             return new ResponseEntity<>("Card not found", HttpStatus.NOT_FOUND);
         }
@@ -35,19 +36,24 @@ public class CardController {
     @PostMapping("/add")
     public ResponseEntity<?> addCard(@RequestBody QuizCard quizCard) {
         cardService.saveCard(quizCard);
-        return new ResponseEntity<>("Added Successfully",HttpStatus.OK);
+        return new ResponseEntity<>(Map.of("message", "Added Successfully"),HttpStatus.OK);
     }
 
-    @PostMapping("/update")
-    public ResponseEntity<?> updateCard(@RequestBody QuizCard newQuizCard) {
+    @PostMapping("/card/edit/{id}")
+    public ResponseEntity<?> updateCard(@PathVariable long id, @RequestBody QuizCard quizCard) {
+        QuizCard newQuizCard = cardService.findCardById(id).orElseThrow();
+        newQuizCard.setQuestion(quizCard.getQuestion());
+        newQuizCard.setAnswer(quizCard.getAnswer());
+        newQuizCard.setDifficulty(quizCard.getDifficulty());
+        newQuizCard.setCategory(quizCard.getCategory());
         cardService.updateCard(newQuizCard);
         return new ResponseEntity<>("Updated Successfully",HttpStatus.OK);
     }
 
-    @PostMapping("/delete")
-    public ResponseEntity<?> deleteCard(@RequestParam(value="id") long id) {
+    @PostMapping("card/delete/{id}")
+    public ResponseEntity<?> deleteCard(@PathVariable long id) {
         cardService.deleteCard(id);
-        return new ResponseEntity<>("Deleted Successfully",HttpStatus.OK);
+        return new ResponseEntity<>(Map.of("message","Deleted Successfully"),HttpStatus.OK);
     }
 
     @GetMapping("/maxCardNumber")
