@@ -58,7 +58,7 @@ function AddFlashCard() {
     return (
         <>
             <div className='w-full h-[calc(91vh-2px)] flex items-center justify-center'>
-                <div className=' border-violet-600 border w-[30%] box-border px-12 pb-10 rounded-lg'>
+                <div className=' border-violet-600 border box-border px-12 pb-10 rounded-lg '>
                 <div className='text-xl font-semibold flex justify-center items-center h-[10vh] text-violet-600'>Add FlashCard</div>
                     <form onSubmit={submitHandler} className="max-w-sm mx-auto">
                         <div className="mb-5">
@@ -103,7 +103,7 @@ function AddFlashCard() {
                                 </select></div>
                             </div>
                         </div>
-                        <button type="submit" className=" text-white bg-violet-600 hover:bg-violet-500 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center">Add</button>
+                        <button type="submit" className=" text-white bg-violet-600 hover:bg-violet-500 font-medium rounded-lg text-sm w-full w-auto px-5 py-2.5 text-center">Add</button>
                     </form>
                 </div>
             </div>

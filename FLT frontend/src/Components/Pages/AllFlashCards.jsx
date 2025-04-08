@@ -51,7 +51,7 @@ function AllFlashCards() {
     return (
         <>
             <div className='w-full flex justify-center mt-10'>
-                <div className="relative overflow-x-auto w-[70%]">
+                <div className=" overflow-x-auto w-[70%]">
                     <table className="w-full text-sm text-left text-gray-500">
                         <thead className="text-xs text-gray-700 uppercase bg-gray-5">
                             <tr className='border-b'>

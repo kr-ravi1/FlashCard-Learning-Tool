@@ -13,7 +13,7 @@ const FlashCard = ({ quesNumber, question, answer, difficulty, category }) => {
             <div className={`card-inner ${isFlipped ? 'flipped' : ''}`}>
                 <div className="card-front flex-col">
                     <div className='text-violet-600'>#{quesNumber}</div>
-                    <div className='flex justify-between w-full px-8 py-2'>
+                    <div className='flex justify-between w-full py-2'>
                         <div className='font-light text-sm bg-yellow-100 rounded-md px-3 py-1 text-yellow-700'>{difficulty}</div>
                         <div className='font-light text-sm bg-yellow-100 rounded-md px-3 py-1 text-yellow-700'>{category}</div>
                     </div>
